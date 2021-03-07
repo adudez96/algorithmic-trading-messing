@@ -1,0 +1,3 @@
+logging:
+  file-level: DEBUG
+  stdout-level: INFO

@@ -3,3 +3,6 @@ storage:
     bucket: algotrading-api-creds
     blob: tdameritrade.key
   
+logging:
+  file-level: INFO
+  stdout-level: INFO
