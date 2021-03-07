@@ -1,9 +1,21 @@
+from config import config
+
 from google.cloud import bigquery, storage
 
 def main() -> None:
     print("Running!")
-    run_bigquery_client_test()
-    run_storage_client_test()
+    # run_bigquery_client_test()
+    # run_storage_client_test()
+    print(get_ameritrade_creds())
+
+
+def get_ameritrade_creds() -> str:
+    storage_client = storage.Client()
+
+    bucket = storage_client.get_bucket(config["storage"]["tdameritrade-api-creds"]["bucket"])
+    api_key = bucket.get_blob(config["storage"]["tdameritrade-api-creds"]["blob"]).download_as_string()
+
+    return api_key
 
 
 def run_bigquery_client_test() -> None:

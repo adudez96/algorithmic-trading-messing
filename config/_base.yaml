@@ -1,0 +1,5 @@
+storage:
+  tdameritrade-api-creds:
+    bucket: algotrading-api-creds
+    blob: tdameritrade.key
+  

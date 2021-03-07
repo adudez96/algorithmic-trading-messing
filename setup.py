@@ -17,7 +17,8 @@ setuptools.setup(
     ],
     install_requires=[
         "google-cloud-bigquery==2.10.0",
-        "google-cloud-storage==1.36.1"
+        "google-cloud-storage==1.36.1",
+        "hiyapyco==0.4.16"
     ],
     packages=setuptools.find_packages(),
     python_requires=">=3.7.2",
