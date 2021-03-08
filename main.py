@@ -1,11 +1,11 @@
 from config import config
 from datasources.ameritrade import AmeritradeDatasource, get_ameritrade_key
+from logger import setup_logging
 
 from google.cloud import bigquery, storage
 
 import logging
 import os
-import sys
 
 
 historical_data_csv_filename = "{}/historical.csv".format(os.getcwd())
@@ -15,30 +15,10 @@ def main() -> None:
     logging.info("Running!")
     # run_bigquery_client_test()
     # run_storage_client_test()
-    logging.debug(get_ameritrade_key())
     logging.info("Getting historical data...")
     df_historical_data = AmeritradeDatasource.getHistoricalData()
     logging.info("Outputting historical data to csv @ \"{}\"".format(historical_data_csv_filename))
     df_historical_data.to_csv(historical_data_csv_filename)
-
-
-def setup_logging() -> None:
-    # Clear all logging handlers to make way for custom
-    logging.getLogger().handlers = []
-
-    log_format = '[%(asctime)s] [%(levelname)s] {%(filename)s:%(lineno)d} %(message)s'
-    formatter = logging.Formatter(log_format)
-
-    file_handler = logging.FileHandler(filename='tmp.log')
-    file_handler.setFormatter(formatter)
-    file_handler.setLevel(logging.getLevelName(config["logging"]["file-level"]))
-    stdout_handler = logging.StreamHandler(sys.stdout)
-    stdout_handler.setFormatter(formatter)
-    stdout_handler.setLevel(logging.getLevelName(config["logging"]["stdout-level"]))
-
-    logging.getLogger().setLevel(logging.NOTSET)
-    logging.getLogger().addHandler(file_handler)
-    logging.getLogger().addHandler(stdout_handler)
 
 
 def run_bigquery_client_test() -> None:

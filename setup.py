@@ -20,6 +20,7 @@ setuptools.setup(
         "google-cloud-bigquery==2.10.0",
         "google-cloud-storage==1.36.1",
         "hiyapyco==0.4.16",
+        "JSON-log-formatter>=0.3.0"
         "numpy==1.20.1",
         "pandas==1.2.3",
     ],

@@ -30,7 +30,6 @@ class AmeritradeDatasource(Datasource):
             table = soup.find('table', {'class': 'quotes'})
             for row in table.findAll('tr')[1:]:
                 symbols.append(row.findAll('td')[0].text.rstrip())
-            break
                 
         # Remove the extra letters on the end
         symbols_clean = []
