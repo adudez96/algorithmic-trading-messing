@@ -1,26 +1,25 @@
 from config import config
+from datasources.ameritrade import AmeritradeDatasource, get_ameritrade_key
 
 from google.cloud import bigquery, storage
 
 import logging
+import os
 import sys
 
+
+historical_data_csv_filename = "{}/historical.csv".format(os.getcwd())
 
 def main() -> None:
     setup_logging()
     logging.info("Running!")
     # run_bigquery_client_test()
     # run_storage_client_test()
-    logging.debug(get_ameritrade_creds())
-
-
-def get_ameritrade_creds() -> str:
-    storage_client = storage.Client()
-
-    bucket = storage_client.get_bucket(config["storage"]["tdameritrade-api-creds"]["bucket"])
-    api_key = bucket.get_blob(config["storage"]["tdameritrade-api-creds"]["blob"]).download_as_string()
-
-    return api_key
+    logging.debug(get_ameritrade_key())
+    logging.info("Getting historical data...")
+    df_historical_data = AmeritradeDatasource.getHistoricalData()
+    logging.info("Outputting historical data to csv @ \"{}\"".format(historical_data_csv_filename))
+    df_historical_data.to_csv(historical_data_csv_filename)
 
 
 def setup_logging() -> None:

@@ -16,9 +16,12 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
+        "beautifulsoup4==4.9.3"
         "google-cloud-bigquery==2.10.0",
         "google-cloud-storage==1.36.1",
-        "hiyapyco==0.4.16"
+        "hiyapyco==0.4.16",
+        "numpy==1.20.1",
+        "pandas==1.2.3",
     ],
     packages=setuptools.find_packages(),
     python_requires=">=3.7.2",

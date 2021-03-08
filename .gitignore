@@ -1,5 +1,6 @@
 first-algotrade-d1030dda2514.json
 *.key
+historical.csv
 
 # Created by https://www.toptal.com/developers/gitignore/api/osx,macos,python,virtualenv,vscode
 # Edit at https://www.toptal.com/developers/gitignore?templates=osx,macos,python,virtualenv,vscode
