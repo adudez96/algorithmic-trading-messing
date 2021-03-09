@@ -4,5 +4,6 @@ storage:
     blob: tdameritrade.key
   
 logging:
+  filename: logs.json
   file-level: INFO
   stdout-level: WARN

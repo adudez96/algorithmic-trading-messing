@@ -24,7 +24,7 @@ def setup_logging() -> None:
     # Clear all logging handlers to make way for custom
     logging.getLogger().handlers = []
 
-    file_handler = logging.FileHandler(filename='tmp.log')
+    file_handler = logging.FileHandler(filename=config["logging"]["filename"])
     file_handler.setFormatter(CustomisedJSONFormatter())
     file_handler.setLevel(logging.getLevelName(config["logging"]["file-level"]))
 

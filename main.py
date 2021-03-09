@@ -18,8 +18,8 @@ def main() -> None:
     # run_storage_client_test()
     logging.info("Getting symbols...")
     eoddata_datasource = EODDataDatasource()
-    # symbols = eoddata_datasource.get_stock_symbol_list(exchange="NYSE")
-    symbols = ["AAPL"]  # for testing
+    symbols = eoddata_datasource.get_stock_symbol_list(exchange="NYSE")
+    # symbols = ["AAPL"]  # for testing
     logging.debug(symbols)
     logging.info("Getting historical data...")
     ameritrade_datasource = AmeritradeDatasource()
