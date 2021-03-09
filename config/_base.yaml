@@ -5,4 +5,4 @@ storage:
   
 logging:
   file-level: INFO
-  stdout-level: INFO
+  stdout-level: WARN

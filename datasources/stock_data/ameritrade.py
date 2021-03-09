@@ -1,6 +1,8 @@
+from datasources.eoddata import EODDataDatasource
 from typing import List
+
 from config import config
-from datasources import Datasource
+from datasources.stock_data import StockDataSource
 from util import YEAR_IN_MILLIS, unix_time_millis
 
 from bs4 import BeautifulSoup
@@ -16,34 +18,10 @@ import string
 import time
 
 
-class AmeritradeDatasource(Datasource):
-    def get_symbols() -> List[str]:
-        symbols = []
-
-        # Get a current list of all the stock symbols for the NYSE
-        alpha = list(string.ascii_uppercase)
-        for each in alpha:
-            url = 'http://eoddata.com/stocklist/NYSE/{}.htm'.format(each)
-            resp = requests.get(url)
-            site = resp.content
-            soup = BeautifulSoup(site, 'html.parser')
-            table = soup.find('table', {'class': 'quotes'})
-            for row in table.findAll('tr')[1:]:
-                symbols.append(row.findAll('td')[0].text.rstrip())
-                
-        # Remove the extra letters on the end
-        symbols_clean = []
-
-        for each in symbols:
-            each = each.replace('.', '-')
-            symbols_clean.append((each.split('-')[0]))
-        
-        return symbols_clean
-
+class AmeritradeDatasource(StockDataSource):
     # Price History API Documentation
     # https://developer.tdameritrade.com/price-history/apis/get/marketdata/%7Bsymbol%7D/pricehistory
-    @classmethod
-    def getHistoricalData(cls) -> pd.DataFrame:
+    def getHistoricalData(self, symbols: List[str]) -> pd.DataFrame:
 
         # Get the historical dates you need.
         # Only doing one day here as an example
@@ -52,11 +30,6 @@ class AmeritradeDatasource(Datasource):
         # Convert to unix for the API
         date_ms = unix_time_millis(date)
 
-        logging.info("Getting symbols...")
-        symbols = cls.get_symbols()
-        # symbols = ["AAPL"]  # for testing
-        logging.debug(symbols)
-
         # Get the price history for each stock. This can take a while
         logging.info("Getting TDAmeritrade key...")
         consumer_key = get_ameritrade_key()
@@ -64,8 +37,8 @@ class AmeritradeDatasource(Datasource):
         data_list = []
 
         logging.info("Getting historical data...")
-        for each in symbols:
-            url = r"https://api.tdameritrade.com/v1/marketdata/{}/pricehistory".format(each)
+        for stock_sym in symbols:
+            url = r"https://api.tdameritrade.com/v1/marketdata/{}/pricehistory".format(stock_sym)
 
             # You can do whatever period/frequency you want
             # This will grab the data for a single day
@@ -123,8 +96,6 @@ class AmeritradeDatasource(Datasource):
         # Format the dates
         df['date'] = pd.to_datetime(df['date'], unit='ms')
         df['date'] = df['date'].dt.strftime('%Y-%m-%d')
-
-        print(df.head())
 
         return df
 

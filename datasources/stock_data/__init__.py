@@ -1,6 +1,6 @@
 import pandas as pd 
 
 
-class Datasource(object):
+class StockDataSource(object):
     def getHistoricalData(self) -> pd.DataFrame:
         raise NotImplementedError()

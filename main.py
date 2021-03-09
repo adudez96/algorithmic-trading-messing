@@ -1,5 +1,6 @@
+from datasources.eoddata import EODDataDatasource
 from config import config
-from datasources.ameritrade import AmeritradeDatasource, get_ameritrade_key
+from datasources.stock_data.ameritrade import AmeritradeDatasource
 from logger import setup_logging
 
 from google.cloud import bigquery, storage
@@ -15,8 +16,14 @@ def main() -> None:
     logging.info("Running!")
     # run_bigquery_client_test()
     # run_storage_client_test()
+    logging.info("Getting symbols...")
+    eoddata_datasource = EODDataDatasource()
+    # symbols = eoddata_datasource.get_stock_symbol_list(exchange="NYSE")
+    symbols = ["AAPL"]  # for testing
+    logging.debug(symbols)
     logging.info("Getting historical data...")
-    df_historical_data = AmeritradeDatasource.getHistoricalData()
+    ameritrade_datasource = AmeritradeDatasource()
+    df_historical_data = ameritrade_datasource.getHistoricalData(symbols=symbols)
     logging.info("Outputting historical data to csv @ \"{}\"".format(historical_data_csv_filename))
     df_historical_data.to_csv(historical_data_csv_filename)
 
