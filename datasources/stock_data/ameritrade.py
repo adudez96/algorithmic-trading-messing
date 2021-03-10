@@ -2,7 +2,7 @@ from typing import List
 
 from config import config
 from datasources.stock_data import StockDataSource
-from util import YEAR_IN_MILLIS, current_unix_time_millis
+from util import ROUND_DECIMAL_PLACES_DEFAULT, YEAR_IN_MILLIS, current_unix_time_millis
 
 import numpy as np
 import pandas as pd

@@ -2,6 +2,10 @@ storage:
   tdameritrade-api-creds:
     bucket: algotrading-api-creds
     blob: tdameritrade.key
+  bigquery:
+    eod-price-data:
+      dataset: equity_data
+      table: daily_quote_data
   
 logging:
   filename: logs.json
