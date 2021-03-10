@@ -1,9 +1,8 @@
-from datasources.eoddata import EODDataDatasource
 from typing import List
 
 from config import config
 from datasources.stock_data import StockDataSource
-from util import YEAR_IN_MILLIS, unix_time_millis
+from util import YEAR_IN_MILLIS, current_unix_time_millis
 
 from bs4 import BeautifulSoup
 import numpy as np
@@ -23,12 +22,8 @@ class AmeritradeDatasource(StockDataSource):
     # https://developer.tdameritrade.com/price-history/apis/get/marketdata/%7Bsymbol%7D/pricehistory
     def getHistoricalData(self, symbols: List[str]) -> pd.DataFrame:
 
-        # Get the historical dates you need.
-        # Only doing one day here as an example
-        date = datetime.strptime('2019-11-19', '%Y-%m-%d')
-
         # Convert to unix for the API
-        date_ms = unix_time_millis(date)
+        date_ms = current_unix_time_millis()
 
         # Get the price history for each stock. This can take a while
         logging.info("Getting TDAmeritrade key...")
@@ -47,7 +42,7 @@ class AmeritradeDatasource(StockDataSource):
                 'periodType': 'month',
                 'frequencyType': 'daily',
                 'frequency': '1',
-                'startDate': date_ms - (2 * YEAR_IN_MILLIS),
+                'startDate': date_ms - (3 * YEAR_IN_MILLIS),
                 'endDate': date_ms,
                 'needExtendedHoursData': 'true'
             }
