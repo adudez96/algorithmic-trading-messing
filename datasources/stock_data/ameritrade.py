@@ -4,16 +4,14 @@ from config import config
 from datasources.stock_data import StockDataSource
 from util import YEAR_IN_MILLIS, current_unix_time_millis
 
-from bs4 import BeautifulSoup
 import numpy as np
 import pandas as pd
+from tqdm import tqdm
 
 from google.cloud import storage
 
-from datetime import datetime
 import logging
 import requests
-import string
 import time
 
 
@@ -32,7 +30,7 @@ class AmeritradeDatasource(StockDataSource):
         data_list = []
 
         logging.info("Getting historical data...")
-        for stock_sym in symbols:
+        for stock_sym in tqdm(symbols, disable=not config["logging"]["print-progress-bars"]):
             url = r"https://api.tdameritrade.com/v1/marketdata/{}/pricehistory".format(stock_sym)
 
             # You can do whatever period/frequency you want
@@ -58,7 +56,8 @@ class AmeritradeDatasource(StockDataSource):
         # Create a list for each data point and loop through the json, adding the data to the lists
         symbl_l, open_l, high_l, low_l, close_l, volume_l, date_l = [], [], [], [], [], [], []
 
-        for data in data_list:
+        logging.info("Processing historical data...")
+        for data in tqdm(data_list, disable=not config["logging"]["print-progress-bars"]):
             try:
                 symbl_name = data['symbol']
             except KeyError:

@@ -1,3 +1,4 @@
 logging:
   file-level: DEBUG
   stdout-level: INFO
+  print-progress-bars: true

@@ -1,6 +1,9 @@
 from typing import List
 
+from config import config
+
 from bs4 import BeautifulSoup
+from tqdm import tqdm
 
 import requests
 import string
@@ -12,7 +15,7 @@ class EODDataDatasource(object):
 
         # Get a current list of all the stock symbols for the NYSE
         alpha = list(string.ascii_uppercase)
-        for each in alpha:
+        for each in tqdm(alpha, disable=not config["logging"]["print-progress-bars"]):
             url = 'http://eoddata.com/stocklist/{}/{}.htm'.format(exchange, each)
             resp = requests.get(url)
             site = resp.content

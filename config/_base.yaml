@@ -7,3 +7,4 @@ logging:
   filename: logs.json
   file-level: INFO
   stdout-level: WARN
+  print-progress-bars: false
