@@ -21,9 +21,11 @@ setuptools.setup(
         "google-cloud-storage==1.36.1",
         "hiyapyco==0.4.16",
         "JSON-log-formatter>=0.3.0"
+        "matplotlib==3.2.2",
         "numpy==1.20.1",
         "pandas==1.2.3",
         "tqdm==4.59.0",
+        "yfinance==0.1.55",
     ],
     packages=setuptools.find_packages(),
     python_requires=">=3.7.2",

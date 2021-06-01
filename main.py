@@ -1,3 +1,4 @@
+from jobs.backtest import run_backtest
 from jobs.historical_get_and_upload import historical_get_and_upload
 from logger import setup_logging
 
@@ -11,7 +12,8 @@ def main() -> None:
     setup_logging()
     logging.info("Running!")
 
-    historical_get_and_upload("NYSE")
+    # historical_get_and_upload("NYSE")
+    run_backtest()
 
     logging.info("Done!")
 
